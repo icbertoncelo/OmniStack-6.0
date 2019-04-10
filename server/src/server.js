@@ -1,6 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require("cors");
+
+const app = express();
+app.use(cors);
+
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+
+io.on("connection", socket => {
+  socket.on("connect", box => {
+    socket.join(box);
+  });
+});
 
 // Connect to Database
 const db =
@@ -9,7 +22,11 @@ mongoose.connect(db, { useNewUrlParser: true }).then(() => {
   console.log("MongoDB Ok");
 });
 
-const app = express();
+app.use((req, res, next) => {
+  req.io = io;
+
+  return next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,4 +35,4 @@ app.use("/files", express.static(path.resolve(__dirname, "..", "tmp")));
 
 const port = 5000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+server.listen(port, () => console.log(`Server running on port ${port}`));
