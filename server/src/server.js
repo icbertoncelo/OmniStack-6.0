@@ -4,13 +4,13 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-app.use(cors);
+app.use(cors());
 
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 
 io.on("connection", socket => {
-  socket.on("connect", box => {
+  socket.on("connectRoom", box => {
     socket.join(box);
   });
 });
@@ -30,8 +30,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(require("./routes"));
 app.use("/files", express.static(path.resolve(__dirname, "..", "tmp")));
+
+app.use(require("./routes"));
 
 const port = process.env.PORT || 5000;
 
