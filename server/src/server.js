@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 
 // Connect to Database
 const db =
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(require("./routes"));
+app.use("/files", express.static(path.resolve(__dirname, "..", "tmp")));
 
 const port = 5000;
 
