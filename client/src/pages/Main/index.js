@@ -24,18 +24,16 @@ export default class Main extends Component {
 
   render() {
     return (
-      <div>
-        <div id="main-container">
-          <form onSubmit={this.handleSubmit}>
-            <img src={logo} alt="" />
-            <input
-              placeholder="Create a Box"
-              value={this.state.newBox}
-              onChange={this.handleInputChange}
-            />
-            <button type="submit">Create</button>
-          </form>
-        </div>
+      <div id="main-container">
+        <form onSubmit={this.handleSubmit}>
+          <img src={logo} alt="" />
+          <input
+            placeholder="Create a Box"
+            value={this.state.newBox}
+            onChange={this.handleInputChange}
+          />
+          <button type="submit">Create</button>
+        </form>
       </div>
     );
   }
